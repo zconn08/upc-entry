@@ -1,5 +1,6 @@
 var self = {};
 
+// Class for single input
 self.upcInput = React.createClass({
   getInitialState: function(){
     return({
@@ -65,6 +66,7 @@ self.upcInput = React.createClass({
   }
 });
 
+// Class for form of inputs
 self.upcInputs = React.createClass({
   getInitialState: function(){
     return({
@@ -162,6 +164,7 @@ self.upcInputs = React.createClass({
   }
 });
 
+// Class for page
 self.upcEntryPage = React.createClass({
   render: function(){
     return(
@@ -173,7 +176,10 @@ self.upcEntryPage = React.createClass({
   }
 });
 
-ReactDOM.render(
-  React.createElement( self.upcEntryPage, {}, ""),
-  document.getElementById('main')
-);
+//Place react component on page
+$(document).ready(function(){
+  ReactDOM.render(
+    React.createElement( self.upcEntryPage, {}, ""),
+    document.getElementById('main')
+  );
+});
