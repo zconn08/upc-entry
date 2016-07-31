@@ -68,7 +68,7 @@ self.upcInputs = React.createClass({
     return({
       inputs: this.getInitialInputs(),
       errorMessage: null,
-      successMessage: null,
+      successMessage: null
     });
   },
 
