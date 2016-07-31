@@ -1,0 +1,10 @@
+#upc-entry-header {
+  text-align: center;
+}
+body {
+  background-color: lightblue
+}
+.change-num-inputs {
+  width: 40px;
+  margin-right: 10px;
+}
