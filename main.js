@@ -100,6 +100,7 @@ self.upcInputs = React.createClass({
   },
 
   sendData: function(upcList){
+    // Below is what the ajax request would look like
     // $.ajax({
     //   method: 'POST',
     //   url: 'https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products',
@@ -110,7 +111,7 @@ self.upcInputs = React.createClass({
     //   error: function(){
     //   },
     // });
-    var successMessage = "The following UPCs were successfully submitted " + upcList.join(" ");
+    var successMessage = "The following UPCs were successfully submitted " + upcList.join(", ");
     this.setState({successMessage: successMessage});
   },
 
