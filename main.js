@@ -67,7 +67,8 @@ self.upcInputs = React.createClass({
   getInitialState: function(){
     return({
       inputs: this.getInitialInputs(),
-      errorMessage: null
+      errorMessage: null,
+      successMessage: null,
     });
   },
 
@@ -102,49 +103,19 @@ self.upcInputs = React.createClass({
     // $.ajax({
     //   method: 'POST',
     //   url: 'https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products',
-    //   data: {"list": [
-    //     "082184090466",
-    //     "083085300265",
-    //     "889714000045"
-    //   ]},
-    //   beforeSend: function(xhr) {
-    //     xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password"));
-    //   },
-    //   dataType: 'json',
+    //   data: {"list": upcList},
     //   contentType: 'application/json',
-    //   processData: false,
-    //   success: function(a,b,c){
-    //     console.log(a);
+    //   success: function(){
     //   },
-    //   error: function(a,b,c){
-    //     console.log(a);
+    //   error: function(){
     //   },
     // });
-    $.ajax({
-      url: "https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products",
-      beforeSend: function(xhr) {
-        xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password"));
-      },
-      type: 'POST',
-      dataType: 'json',
-      contentType: 'application/json',
-      processData: false,
-      data: {"list": [
-          "082184090466",
-          "083085300265",
-          "889714000045"
-      ]},
-      success: function (data) {
-        alert(JSON.stringify(data));
-      },
-      error: function(){
-        alert("Cannot get data");
-      }
-    });
+    var successMessage = "The following UPCs were successfully submitted " + upcList.join(" ");
+    this.setState({successMessage: successMessage});
   },
 
   handleFormClick: function(){
-    this.setState({errorMessage: null});
+    this.setState({errorMessage: null, successMessage: null});
   },
 
   addInput: function(){
@@ -163,6 +134,7 @@ self.upcInputs = React.createClass({
   render: function(){
     var inputs = this.state.inputs;
     var errorMessageClass = this.state.errorMessage === null ? "" : "alert alert-danger";
+    var successMessageClass = this.state.successMessage === null ? "" : "alert alert-success";
     return(
       <div className="row">
         <form id="upc-inputs" className="col-sm-offset-4 col-sm-4" onClick={this.handleFormClick}>
@@ -173,6 +145,7 @@ self.upcInputs = React.createClass({
           <button className='btn btn-danger change-num-inputs' onClick={this.removeInput}>-</button>
           <button className='btn btn-primary pull-right' onClick={this.handleSubmit}>Submit</button>
           <div className={errorMessageClass}>{this.state.errorMessage}</div>
+          <div className={successMessageClass}>{this.state.successMessage}</div>
         </div>
       </div>
     );
