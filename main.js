@@ -3,9 +3,7 @@ var self = {};
 // Class for single input
 self.upcInput = React.createClass({
   getInitialState: function(){
-    return({
-      errors: null
-    });
+    return({errors: null});
   },
 
   handleChange: function(evnt){
@@ -22,7 +20,7 @@ self.upcInput = React.createClass({
         errors["UPC codes are numbers only"] = true;
       }
     }
-    if(inputText.length != 12){
+    if(inputText.length !== 12){
       errors["Please make sure UPC code is 12 digits"] = true;
     }
     return Object.keys(errors);
@@ -33,9 +31,7 @@ self.upcInput = React.createClass({
       return null;
     } else {
       var formattedErrors = _.map(this.state.errors, function(error){
-        return(
-          <li key={error}>{error}</li>
-        );
+        return(<li key={error}>{error}</li>);
       });
 
       return(
@@ -47,8 +43,8 @@ self.upcInput = React.createClass({
   },
 
   render: function(){
-    var errorClass = "form-group";
     var errors = this.state.errors;
+    var errorClass = "form-group";
 
     if (errors !== null && errors.length === 0) {
       errorClass += " has-success";
@@ -77,7 +73,7 @@ self.upcInputs = React.createClass({
 
   getInitialInputs: function(){
     var initialInputs = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 5; i++) {
       initialInputs.push(<self.upcInput key={"input-" + i} name={"input-" + i}/>);
     }
     return initialInputs;
@@ -103,33 +99,52 @@ self.upcInputs = React.createClass({
   },
 
   sendData: function(upcList){
-    var request = $.ajax({
-        method: 'POST',
-        url: 'https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products',
-        data: {"list": [
+    // $.ajax({
+    //   method: 'POST',
+    //   url: 'https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products',
+    //   data: {"list": [
+    //     "082184090466",
+    //     "083085300265",
+    //     "889714000045"
+    //   ]},
+    //   beforeSend: function(xhr) {
+    //     xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password"));
+    //   },
+    //   dataType: 'json',
+    //   contentType: 'application/json',
+    //   processData: false,
+    //   success: function(a,b,c){
+    //     console.log(a);
+    //   },
+    //   error: function(a,b,c){
+    //     console.log(a);
+    //   },
+    // });
+    $.ajax({
+      url: "https://iwo3uesa6c.execute-api.us-east-1.amazonaws.com/prod/products",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password"));
+      },
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      processData: false,
+      data: {"list": [
           "082184090466",
           "083085300265",
           "889714000045"
-        ]},
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password"));
-        },
-        dataType: 'json',
-        contentType: 'application/json',
-        processData: false,
-        success: function(a,b,c){
-          console.log(a);
-        },
-        error: function(a,b,c){
-          console.log(a);
-        },
+      ]},
+      success: function (data) {
+        alert(JSON.stringify(data));
+      },
+      error: function(){
+        alert("Cannot get data");
+      }
     });
   },
 
   handleFormClick: function(){
-    this.setState({
-      errorMessage: null
-    });
+    this.setState({errorMessage: null});
   },
 
   addInput: function(){
