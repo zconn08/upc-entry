@@ -55,7 +55,7 @@ self.upcInput = React.createClass({
     var formattedErrors = this.renderErrors();
     return(
       <div className={errorClass} >
-        <input onChange={this.handleChange} type="text" className="form-control" name={this.props.name}></input>
+        <input onChange={this.handleChange} type="text" className="form-control upc-input" name={this.props.name}></input>
         <span className="help-block">{formattedErrors}</span>
       </div>
     );
@@ -75,7 +75,12 @@ self.upcInputs = React.createClass({
   getInitialInputs: function(){
     var initialInputs = [];
     for (var i = 0; i < 5; i++) {
-      initialInputs.push(<self.upcInput key={"input-" + i} name={"input-" + i}/>);
+      initialInputs.push(
+        <self.upcInput
+          key={"input-" + i}
+          name={"input-" + i}
+          />
+      );
     }
     return initialInputs;
   },
@@ -95,7 +100,14 @@ self.upcInputs = React.createClass({
           upcHash[value] = true;
         }
       });
-      this.sendData(Object.keys(upcHash));
+      var successfulKeys = Object.keys(upcHash);
+      if(successfulKeys.length === 0){
+        this.setState({
+          errorMessage: "Please enter at least one UPC code"
+        });
+      } else {
+        this.sendData(successfulKeys);
+      }
     }
   },
 
@@ -111,8 +123,10 @@ self.upcInputs = React.createClass({
     //   error: function(){
     //   },
     // });
-    var successMessage = "The following UPCs were successfully submitted " + upcList.join(", ");
+    var successMessage = "The following UPCs were successfully submitted: " + upcList.join(", ");
     this.setState({successMessage: successMessage});
+    $('.upc-input').val("");
+    $(".has-success").removeClass("has-success");
   },
 
   handleFormClick: function(){

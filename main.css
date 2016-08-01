@@ -8,3 +8,6 @@ body {
   width: 40px;
   margin-right: 10px;
 }
+.alert {
+  margin-top: 5px;
+}
